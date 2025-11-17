@@ -228,7 +228,7 @@ ul.addEventListener('click', function(event) {
     // Only show view form if NOT clicking the edit button
     const workerItem = event.target.closest('li.listC');
     if (workerItem) {
-      document.getElementById('viewName').textContent = workerItem.dataset.git add .EroleInput;
+      document.getElementById('viewName').textContent = workerItem.dataset;
       document.getElementById('viewRole').textContent = workerItem.dataset.role;
       document.getElementById('viewPhoto').src = workerItem.dataset.photo;
       viewWorkerForm.style.display = 'block';
