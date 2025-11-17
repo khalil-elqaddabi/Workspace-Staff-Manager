@@ -8,7 +8,7 @@ const viewWorkerForm = document.getElementById('viewWorkerForm');
 const hideviewerForme = document.getElementById('hideviewerForme');
 
 const ul = document.getElementById('workerList');
-const Name = document.getElementById('name');
+const fullname = document.getElementById('name');
 const role = document.getElementById('role');
 const photoInput = document.getElementById('photo');
 const companyInput = document.getElementById('company');
@@ -63,7 +63,7 @@ function addWorker() {
 
   if (currentEditingWorker) {
     // EDIT MODE: Update existing worker
-    currentEditingWorker.dataset.name = Name.value;
+    currentEditingWorker.dataset.name = fullname.value;
     currentEditingWorker.dataset.role = role.value;
     currentEditingWorker.dataset.photo = photoDataUrl;
     
@@ -71,7 +71,7 @@ function addWorker() {
       <div class="flex gap-6 h-[40px]">
         <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
         <div>
-          <div>${Name.value}</div>
+          <div>${fullname.value}</div>
           <div>${role.value}</div>
         </div>
       </div>
@@ -82,7 +82,7 @@ function addWorker() {
     // ADD MODE: Create new worker
     let li = document.createElement('li');
     li.classList.add('listC');
-    li.dataset.name = Name.value;
+    li.dataset.name = fullname.value;
     li.dataset.role = role.value;
     li.dataset.photo = photoDataUrl;
 
@@ -90,7 +90,7 @@ function addWorker() {
       <div class="flex gap-6 h-[40px]">
         <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
         <div>
-          <div>${Name.value}</div>
+          <div>${fullname.value}</div>
           <div>${role.value}</div>
         </div>
       </div>
@@ -105,7 +105,7 @@ function addWorker() {
 
   // Clear form
   addWorkerForm.style.display = 'none';
-  Name.value = '';
+  fullname.value = '';
   role.value = '';
   photoInput.value = '';
   photoDataUrl = '';
@@ -156,7 +156,7 @@ let isValid = true;
   const phoneRegex = /^\+212[67]\d{8}$/;
 
 
-if (Name.value.trim() === '' || !nameRegex.test(Name.value.trim())) {
+if (fullname.value.trim() === '' || !nameRegex.test(fullname.value.trim())) {
     errorname.textContent = "Please enter a valid name (at least 3 letters).";
     isValid = false;
 }   else {  
@@ -216,7 +216,7 @@ ul.addEventListener('click', function(event) {
     const workerItem = event.target.closest('li.listC');
     if (workerItem) {
       currentEditingWorker = workerItem;
-      Name.value = workerItem.dataset.name;
+      fullname.value = workerItem.dataset.name;
       role.value = workerItem.dataset.role;
       photoDataUrl = workerItem.dataset.photo;
       const label = document.querySelector('label[for="photo"]');
@@ -228,7 +228,7 @@ ul.addEventListener('click', function(event) {
     // Only show view form if NOT clicking the edit button
     const workerItem = event.target.closest('li.listC');
     if (workerItem) {
-      document.getElementById('viewName').textContent = workerItem.dataset.name;
+      document.getElementById('viewName').textContent = workerItem.dataset.git add .EroleInput;
       document.getElementById('viewRole').textContent = workerItem.dataset.role;
       document.getElementById('viewPhoto').src = workerItem.dataset.photo;
       viewWorkerForm.style.display = 'block';
