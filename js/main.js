@@ -4,6 +4,8 @@ const addWorkerBtn = document.getElementById('addWorkerBtn');
 const addWorkerForm = document.getElementById('addWorkerForm');
 const hideWorkerForme = document.getElementById('hideWorkerForme');
 const cancelAddBtn = document.getElementById('canceladd');
+const viewWorkerForm = document.getElementById('viewWorkerForm');
+const hideviewerForme = document.getElementById('hideviewerForme');
 
 const ul = document.getElementById('workerList');
 const Name = document.getElementById('name');
@@ -38,12 +40,19 @@ cancelAddBtn.addEventListener('click', function(event) {
 }); 
 
 
+
+
 addWorkerBtn.addEventListener('click', function() {
     addWorkerForm.style.display = 'block';
 });
 hideWorkerForme.addEventListener('click', function() {
   addWorkerForm.style.display = 'none';
 });
+// ================= hide view worker form ==================//
+hideviewerForme.addEventListener('click', function() {
+  viewWorkerForm.style.display = 'none';
+}   );
+
 
 
 
@@ -85,7 +94,11 @@ function addWorker() {
           <div>${role.value}</div>
         </div>
       </div>
-      <button class="editBtn text-red-500 font-bold ml-3">edit</button>
+      <div class="flex flex-col">
+      <button class="editBtn text-yellow-500 font-bold ml-3">edit</button>
+      <button class="deleteBtn text-red-500 font-bold ml-3">delete</button>
+      </div>
+      
     `;
     ul.appendChild(li);
   }
@@ -202,19 +215,44 @@ ul.addEventListener('click', function(event) {
   if (event.target.classList.contains('editBtn')) {
     const workerItem = event.target.closest('li.listC');
     if (workerItem) {
-      currentEditingWorker = workerItem; // Store the worker being edited
-      
-      // Fill form fields with the worker's info
+      currentEditingWorker = workerItem;
       Name.value = workerItem.dataset.name;
       role.value = workerItem.dataset.role;
       photoDataUrl = workerItem.dataset.photo;
       const label = document.querySelector('label[for="photo"]');
       if (label && photoDataUrl)
         label.innerHTML = `<img src="${photoDataUrl}" alt="Profile Picture" class="w-full h-full object-cover">`;
-
-      // Show the form
       addWorkerForm.style.display = 'block';
+    }                                                                   
+  } else if (event.target.closest('li.listC') && !event.target.classList.contains('editBtn')) {
+    // Only show view form if NOT clicking the edit button
+    const workerItem = event.target.closest('li.listC');
+    if (workerItem) {
+      document.getElementById('viewName').textContent = workerItem.dataset.name;
+      document.getElementById('viewRole').textContent = workerItem.dataset.role;
+      document.getElementById('viewPhoto').src = workerItem.dataset.photo;
+      viewWorkerForm.style.display = 'block';
     }
   }
 });
+
+
+// ==========remove worker ==============//
+function removecard() {
+  if (currentEditingWorker) {
+    // Ask for confirmation
+    if (confirm('Are you sure you want to remove this worker?')) {
+      // Remove the <li> from the list
+      currentEditingWorker.remove();
+      
+      // Reset the variable
+      currentEditingWorker = null;
+      
+      // Hide the view form
+      viewWorkerForm.style.display = 'none';
+    }
+  } else {
+    alert('No worker selected to remove');
+  }
+}
 

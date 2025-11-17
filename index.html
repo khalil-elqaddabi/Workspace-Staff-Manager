@@ -73,7 +73,7 @@
                 
             </div>
         </div>
-
+        <!-- h -->
         <div class="w-[100%] h-screen absolute items-center  pt-[100px] pl-[30%] hidden worker_form" id="addWorkerForm">
         <form id="addWorkerForm"  class="border w-[500px] h-[400px] flex flex-col gap-4 p-4 bg-white items-center  ">
                     <!-- <input type="text" placeholder="Name"  />
@@ -137,7 +137,7 @@
                         </div>
                     <div class="w-[90%] flex flex-col gap-1">
                    <label for="name" class=" text-sm font-medium text-gray-700">Email:</label>
-                   <input type="text" id="email" name="name"  class="border h-[40px] p-2 rounded" >
+                   <input type="text" id="email" name="email"  class="border h-[40px] p-2 rounded" >
                    <span id="err_email" class="color"></span>
                </div>
                 <div class="w-[90%] flex flex-col gap-1">
@@ -151,11 +151,39 @@
                 
                </div>
                     </div>
-                    
-    
-                    </form>
-                    </div>
-        </main>
+
+                </main>
+
+                <!-- view worker details -->
+                <div class="w-[100%] h-screen absolute items-center  pl-[30%] pr-[30%] pb-[60px] hidden worker_form" id="viewWorkerForm">
+ <form id="viewWorkerDetailsForm"  class="border w-[500px] h-[500px] flex flex-col gap-4 p-4 bg-white items-center  ">
+             <!-- <input type="text" placeholder="Name"  />
+             <input type="text" placeholder="Role"  />
+             Add more fields as needed 
+             <button type="submit">Save Worker</button> -->
+             <div class="w-[100%] flex items-center justify-between bg-blue-200 p-2 rounded-md ">
+             <h2 class="text-blue-500 text-2xl mb-[20px]"><b>Add Worker</b></h2>
+             <button class="text-red-500 text-2xl mb-[10px] " type="button" id="hideviewerForme"><b>X</b></button>
+             </div>
+             <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
+            <div class="w-[90%] flex flex-col gap-1">
+    <label>Name:</label>
+    <p id="viewName"></p>
+</div>
+<div class="w-[90%] flex flex-col gap-1">
+    <label>Role:</label>
+    <p id="viewRole"></p>
+</div>
+<div class="flex flex-col items-center">
+    <img id="viewPhoto" class="w-28 h-28 rounded-full" alt="Photo">
+</div>
+                
+      
+             </div>
+             
+
+             </form>
+             </div>
     </section>
     
 </body>
