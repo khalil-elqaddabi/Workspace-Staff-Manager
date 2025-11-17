@@ -74,8 +74,8 @@
             </div>
         </div>
 
-        <div class="w-[100%] h-screen absolute items-center  pt-[100px] pl-[40%] hidden worker_form" id="addWorkerForm">
-        <form id="addWorkerForm"  class="border w-[300px] h-[400px] flex flex-col gap-4 p-4 bg-white items-center  ">
+        <div class="w-[100%] h-screen absolute items-center  pt-[100px] pl-[30%] hidden worker_form" id="addWorkerForm">
+        <form id="addWorkerForm"  class="border w-[500px] h-[400px] flex flex-col gap-4 p-4 bg-white items-center  ">
                     <!-- <input type="text" placeholder="Name"  />
                     <input type="text" placeholder="Role"  />
                     Add more fields as needed 
@@ -87,11 +87,13 @@
                     <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
                     <div class="w-[90%] flex flex-col gap-1">
                         <label for="name" class=" text-sm font-medium text-gray-700" >Name:</label>
-                        <input type="text" id="name" name="name"  class="border h-[30px] p-2 rounded" placeholder="Enter name">
+                        <input type="text" id="name" name="name"  class="border h-[40px] p-2 rounded" placeholder="Enter name">
+                        <span id="err_name" class="color"></span>
                     </div>
                     <div class="w-[90%] flex flex-col gap-1 ">
                         <label for="name" class=" text-sm font-medium text-gray-700">Role:</label>
-                        <select name="" id="role" class="border rounded h-[30px]">
+                        <select name="" id="role" class="border rounded h-[40px]">
+                            <option value="none">select</option>
                             <option value="Réception">Réception</option>
                             <option value="Salle des serveurs ">Salle des serveurs </option>
                             <option value="Salle de sécurité">Salle de sécurité</option>
@@ -99,35 +101,49 @@
                             <option value="Nettoyage ">Nettoyage </option>
                             <option value="Autres rôles ">Autres rôles </option>
                         </select>
+                        <span id="err_select" class="color"></span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                            <label for="photo"class="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer overflow-hidden">
+                                <span class="text-gray-500 text-sm">Add Picture</span>
+                            </label>
+                           
+                      <input type="file" id="photo" class="hidden">
                     </div>
                     <div class="w-[90%]">
                         <h3><b>Experience</b></h3>
-                        <div class="flex flex-col border items-center p-2">
+                        <div class="flex flex-col border items-center p-2 gap-4">
                             <div class="flex flex-col w-[100%] ">
                             <label>company :</label>
-                            <input type="text" class="border rounded h-[25px] w-[100%] ">
+                            <input type="text" class="border rounded h-[30px] w-[100%] " id="company">
+                            <span id="err_company" class="color"></span>
                             </div>
                             <div class="flex flex-col w-[100%] ">
                             <label>Role :</label>
-                            <input type="text" class="border rounded h-[25px] w-[100%] ">
+                            <input type="text" class="border rounded h-[30px] w-[100%] " id="Erole">
+                            <span id="err_role" class="color"></span>
                             </div>
                             <div class="flex flex-col w-[100%] ">
                             <label>From :</label>
-                            <input type="date" class="border rounded h-[25px] w-[100%] ">
+                            <input type="date" class="border rounded h-[30px] w-[100%] " id="from">
+                            <span id="err_from" class="color"></span>
                             </div>
                             <div class="flex flex-col w-[100%] ">
                             <label>TO :</label>
-                            <input type="date" class="border rounded h-[25px] w-[100%] ">
+                            <input type="date" class="border rounded h-[30px] w-[100%] " id="to">
+                            <span id="err_to" class="color"></span>
                             </div>
                         </div>
                         </div>
                     <div class="w-[90%] flex flex-col gap-1">
                    <label for="name" class=" text-sm font-medium text-gray-700">Email:</label>
-                   <input type="text" id="name" name="name"  class="border h-[30px] p-2 rounded" placeholder="">
+                   <input type="text" id="email" name="name"  class="border h-[40px] p-2 rounded" >
+                   <span id="err_email" class="color"></span>
                </div>
                 <div class="w-[90%] flex flex-col gap-1">
                    <label for="name" class=" text-sm font-medium text-gray-700">Phone:</label>
-                   <input type="text" id="name" name="name"  class="border h-[30px] p-2 rounded" placeholder="">
+                   <input type="text" id="phone" name="name"  class="border h-[30px] p-2 rounded" >
+                   <span id="err_phone" class="color"></span>
                </div>
                <div>
                 <button class="bg-blue-500 w-[100px] h-[35px] rounded-md text-white" type="button" onclick="addWorker()">Save Worker</button>
