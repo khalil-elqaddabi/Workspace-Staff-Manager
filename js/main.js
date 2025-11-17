@@ -28,7 +28,8 @@ const errorfrom = document.getElementById('err_from');
 const errorto = document.getElementById('err_to');
 
 
-const photo  = document.getElementById('profileImg'); 
+const photo  = document.getElementById('profileImg');
+const edit = document.querySelector('.edit'); 
 
 // =============== show/hide form ===============
 cancelAddBtn.addEventListener('click', function(event) {
@@ -48,32 +49,57 @@ hideWorkerForme.addEventListener('click', function() {
 
 
 // =============== add workers ===============//
-
 function addWorker() {
-    if(!validateForm() )return;
-    
- let li = document.createElement('li');
-li.classList.add('listC');
-li.innerHTML = `
-    <div class="flex gap-6 h-[40px]">
-        <!-- Profile Image -->
-        <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black" id="profileImg">
-       
-  <div>
-    <div>${Name.value}</div>
-    <div>${role.value}</div>
-  </div>
-</div>
-  <button class="removeBtn text-red-500 font-bold ml-3">edit</button>
-`;
-ul.appendChild(li);
-addWorkerForm.style.display = 'none';
-Name.value = '';
-role.value = '';
-photoInput.value = ''
- photoDataUrl = '';
+  if (!validateForm()) return;
 
+  if (currentEditingWorker) {
+    // EDIT MODE: Update existing worker
+    currentEditingWorker.dataset.name = Name.value;
+    currentEditingWorker.dataset.role = role.value;
+    currentEditingWorker.dataset.photo = photoDataUrl;
+    
+    currentEditingWorker.innerHTML = `
+      <div class="flex gap-6 h-[40px]">
+        <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
+        <div>
+          <div>${Name.value}</div>
+          <div>${role.value}</div>
+        </div>
+      </div>
+      <button class="editBtn text-red-500 font-bold ml-3">edit</button>
+    `;
+    currentEditingWorker = null; // Reset after editing
+  } else {
+    // ADD MODE: Create new worker
+    let li = document.createElement('li');
+    li.classList.add('listC');
+    li.dataset.name = Name.value;
+    li.dataset.role = role.value;
+    li.dataset.photo = photoDataUrl;
+
+    li.innerHTML = `
+      <div class="flex gap-6 h-[40px]">
+        <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
+        <div>
+          <div>${Name.value}</div>
+          <div>${role.value}</div>
+        </div>
+      </div>
+      <button class="editBtn text-red-500 font-bold ml-3">edit</button>
+    `;
+    ul.appendChild(li);
+  }
+
+  // Clear form
+  addWorkerForm.style.display = 'none';
+  Name.value = '';
+  role.value = '';
+  photoInput.value = '';
+  photoDataUrl = '';
+  const label = document.querySelector('label[for="photo"]');
+  if (label) label.innerHTML = '';
 }
+let currentEditingWorker = null; // To track the worker being edited
 
 let photoDataUrl = '';
 
@@ -172,7 +198,23 @@ return isValid;
 
 // ================== view worker form ==================//
 
-photo.addEventListener('click', function(event) {
-    event.preventDefault(); 
-    addWorkerForm.style.display = 'black';
-}); 
+ul.addEventListener('click', function(event) {
+  if (event.target.classList.contains('editBtn')) {
+    const workerItem = event.target.closest('li.listC');
+    if (workerItem) {
+      currentEditingWorker = workerItem; // Store the worker being edited
+      
+      // Fill form fields with the worker's info
+      Name.value = workerItem.dataset.name;
+      role.value = workerItem.dataset.role;
+      photoDataUrl = workerItem.dataset.photo;
+      const label = document.querySelector('label[for="photo"]');
+      if (label && photoDataUrl)
+        label.innerHTML = `<img src="${photoDataUrl}" alt="Profile Picture" class="w-full h-full object-cover">`;
+
+      // Show the form
+      addWorkerForm.style.display = 'block';
+    }
+  }
+});
+
