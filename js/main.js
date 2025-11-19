@@ -30,8 +30,13 @@ const errorfrom = document.getElementById('err_from');
 const errorto = document.getElementById('err_to');
 
 
-const photo  = document.getElementById('profileImg');
+const inphoto  = document.getElementById('inputphoto');
+const upphoto  = document.getElementById('loudingphoto');
 const edit = document.querySelector('.edit'); 
+
+
+// ===================== locale storyge =======================//
+let workers = JSON.parse(localStorage.getItem("workers")) || [];
 
 // =============== show/hide form ===============
 cancelAddBtn.addEventListener('click', function(event) {
@@ -43,10 +48,17 @@ cancelAddBtn.addEventListener('click', function(event) {
 
 
 addWorkerBtn.addEventListener('click', function() {
+  // document.body.classList.add("hidden")
+    // document.body.style.display = 'none'
     addWorkerForm.style.display = 'block';
 });
 hideWorkerForme.addEventListener('click', function() {
+    // document.body.style.display = 'block'
+
   addWorkerForm.style.display = 'none';
+      // document.body.classList.remove("hidden")
+
+
 });
 // ================= hide view worker form ==================//
 hideviewerForme.addEventListener('click', function() {
@@ -54,67 +66,77 @@ hideviewerForme.addEventListener('click', function() {
 }   );
 
 
+inphoto.addEventListener("input" , changeImage);
+function changeImage(){
+   
+ upphoto.setAttribute("src",inphoto.value.trim());
 
+}
 
 
 // =============== add workers ===============//
 function addWorker() {
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  if (currentEditingWorker) {
-    // EDIT MODE: Update existing worker
-    currentEditingWorker.dataset.name = fullname.value;
-    currentEditingWorker.dataset.role = role.value;
-    currentEditingWorker.dataset.photo = photoDataUrl;
-    
-    currentEditingWorker.innerHTML = `
-      <div class="flex gap-6 h-[40px]">
-        <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
-        <div>
-          <div>${fullname.value}</div>
-          <div>${role.value}</div>
-        </div>
-      </div>
-      <button class="editBtn text-red-500 font-bold ml-3">edit</button>
-    `;
-    currentEditingWorker = null; // Reset after editing
-  } else {
-    // ADD MODE: Create new worker
+    // Create worker object
+    const worker = {
+        fullname: fullname.value,
+        role: role.value,
+        img: inphoto.value,
+        company: companyInput.value,
+        exrole: EroleInput.value,
+        from: fromInput.value,
+        to: toInput.value,
+        email: emailInput.value,
+        phone: phoneInput.value
+    };
+
+    // Add to array
+    workers.push(worker);
+
+    // Save
+    localStorage.setItem("workers", JSON.stringify(workers));
+
+    // Add to UI
     let li = document.createElement('li');
     li.classList.add('listC');
-    li.dataset.name = fullname.value;
-    li.dataset.role = role.value;
-    li.dataset.photo = photoDataUrl;
 
     li.innerHTML = `
-      <div class="flex gap-6 h-[40px]">
-        <img src="${photoDataUrl}" alt="Photo" class="w-[40px] h-[40px] rounded-full border border-black">
-        <div>
-          <div>${fullname.value}</div>
-          <div>${role.value}</div>
+        <div class="flex gap-6 h-[40px]">
+            <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
+            <div>
+                <div>${worker.fullname}</div>
+                <div>${worker.role}</div>
+            </div>
         </div>
-      </div>
-      <div class="flex flex-col">
-      <button class="editBtn text-yellow-500 font-bold ml-3">edit</button>
-      <button class="deleteBtn text-red-500 font-bold ml-3">delete</button>
-      </div>
-      
+        <div class="flex flex-col">
+            <button class="editBtn text-yellow-500 font-bold ml-3">edit</button>
+            <button class="deleteBtn text-red-500 font-bold ml-3">delete</button>
+        </div>
     `;
+
     ul.appendChild(li);
-  }
 
-  // Clear form
-  addWorkerForm.style.display = 'none';
-  fullname.value = '';
-  role.value = '';
-  photoInput.value = '';
-  photoDataUrl = '';
-  const label = document.querySelector('label[for="photo"]');
-  if (label) label.innerHTML = '';
+    addWorkerForm.style.display = 'none';
+    clearForm();
 }
-let currentEditingWorker = null; // To track the worker being edited
+// 
+function clearForm() {
+  fullname.value = '';
+  role.value = 'none';
+  inphoto.value = '';
+  loudingphoto.src = '';
+  companyInput.value = '';
+  EroleInput.value = '';
+  fromInput.value = '';
+  toInput.value = '';
+  emailInput.value = '';
+  phoneInput.value = '';
+  document.querySelectorAll('.color').forEach(el => el.textContent = "");
+}
 
-let photoDataUrl = '';
+
+
 
 
 // =============== remove workers ===============//
@@ -126,19 +148,7 @@ let photoDataUrl = '';
 // });
 
 
-// =============== add picture preview ===============//
-photoInput.addEventListener('change', function() {
-    const file = this.files[0]; 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            photoDataUrl = e.target.result; // Save DataURL globally
-            const label = document.querySelector('label[for="photo"]');
-            label.innerHTML = `<img src="${photoDataUrl}" alt="Profile Picture" class="w-full h-full object-cover">`;
-        }
-        reader.readAsDataURL(file);
-    }
-});
+
 
 
 // ==================validation form ==================//
@@ -209,50 +219,10 @@ return isValid;
 }
 
 
-// ================== view worker form ==================//
-
-ul.addEventListener('click', function(event) {
-  if (event.target.classList.contains('editBtn')) {
-    const workerItem = event.target.closest('li.listC');
-    if (workerItem) {
-      currentEditingWorker = workerItem;
-      fullname.value = workerItem.dataset.name;
-      role.value = workerItem.dataset.role;
-      photoDataUrl = workerItem.dataset.photo;
-      const label = document.querySelector('label[for="photo"]');
-      if (label && photoDataUrl)
-        label.innerHTML = `<img src="${photoDataUrl}" alt="Profile Picture" class="w-full h-full object-cover">`;
-      addWorkerForm.style.display = 'block';
-    }                                                                   
-  } else if (event.target.closest('li.listC') && !event.target.classList.contains('editBtn')) {
-    // Only show view form if NOT clicking the edit button
-    const workerItem = event.target.closest('li.listC');
-    if (workerItem) {
-      document.getElementById('viewName').textContent = workerItem.dataset;
-      document.getElementById('viewRole').textContent = workerItem.dataset.role;
-      document.getElementById('viewPhoto').src = workerItem.dataset.photo;
-      viewWorkerForm.style.display = 'block';
-    }
-  }
-});
 
 
-// ==========remove worker ==============//
-function removecard() {
-  if (currentEditingWorker) {
-    // Ask for confirmation
-    if (confirm('Are you sure you want to remove this worker?')) {
-      // Remove the <li> from the list
-      currentEditingWorker.remove();
-      
-      // Reset the variable
-      currentEditingWorker = null;
-      
-      // Hide the view form
-      viewWorkerForm.style.display = 'none';
-    }
-  } else {
-    alert('No worker selected to remove');
-  }
-}
+
+
+
+
 

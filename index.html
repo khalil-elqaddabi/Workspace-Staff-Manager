@@ -10,11 +10,11 @@
 <script src="js/main.js" defer></script>
 </head>
 <body >
-    <section class="globale_section flex flex-col items-center justify-center  ">
-        <main class="globale__container flex flex-col gap-6 p-6 items-center border w-[100%] h-[100vh]">
-            <h1 class="globale__title text-6xl w-[37%] h-[10%] bg-blue-100"> <b>Workspace Staff Manager</b></h1>
-            <div class="body_container flex gap-4 items-center justify-between w-[90%] h-[90%] border">
-            <nav class="worker_bar border w-[35%] h-[100%] ">
+    <section class="globale_section flex flex-col items-center justify-center h-full ">
+        <main class="globale__container flex flex-col gap-8  items-center w-[100%] h-screen">
+            <h1 class="globale__title text-6xl w-[500px] h-[10%] bg-blue-100 mt-[10px]"> <b>Workspace Staff Manager</b></h1>
+            <div class="body_container flex gap-4 items-center justify-between w-[90%] h-[90%] p-2 ">
+            <nav class="worker_bar border w-[400px] h-[100%] min-w-[300px]">
                 <div class="flex flex-col border w-100% h-[100%] flex flex-col items-center gap-4">
                     <h2 class="mt-[10px]  text-blue-500 text-2xl"><b>STAFF MEMBRES</b></h2>
                     <div class="list border w-[100%] h-[90%] overflow-y-scroll ">
@@ -35,127 +35,128 @@
 
                         </ul>
                     </div>
-                    <button class="border cursor-pointer mb-[5px] text-2xl w-[40%] h-[10%] rounded-md bg-blue-500" id="addWorkerBtn">add a worker</button>
+                    <button class="border cursor-pointer mb-[5px] text-2xl w-[15rem] h-[5rem] rounded-md bg-blue-500" id="addWorkerBtn">add a worker</button>
                    
                 </div>
             </nav>
-            <div class="  w-[100%] h-[100%] bg-blue-100 flex items-center justify-end">
-            <div class="floor_plan  border  w-[100%] h-[90%] bg-white">
-                <div class="div1 div flex flex-col pt-[50px] gap-4 items-center">
+            <div class=" floor_container w-[800px] h-[500px] flex items-center justify-end">
+            <div class="floor_plan  border  w-[800px] h-[400px] bg-white">
+                <div class="div1 div flex flex-col  gap-4 items-center justify-center">
                     <p>Salle de conférence </p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
                 </div>
-                <div class="div2 div">
-                    
+                <div class="div2  div flex flex-col  gap-4 items-center justify-center">
+                <p>Réception </p>
+                <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
+
                 </div>
-                <div class="div3 div flex flex-col pt-[50px] gap-4 items-center">
+                <div class="div3 div flex flex-col gap-4 items-center justify-center">
                     <p>Salle des serveurs </p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
                 </div>
-                <div class="div4 div flex flex-col pt-[50px] gap-4 items-center">
+                <div class="div4 div flex flex-col  gap-4 items-center justify-center">
                     <p>Salle de sécurité</p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
                 </div>
-                <div class="div5 div flex flex-col pt-[120px] gap-[80px] items-center">
+                <div class="div5 div flex flex-col gap-4 items-center justify-center">
                     <p>Réception </p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
                 </div>
-                <div class="div6 div flex flex-col pt-[50px] gap-4 items-center"></div>
-                <div class="div7 div flex flex-col pt-[50px] gap-4 items-center">
-                    <p>Salle du personnel </p>
+                <div class="div6 div flex flex-col gap-4 items-center justify-center">
+                    <p>Réception </p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
-                </div>
-                <div class="div8 div flex flex-col pt-[50px] gap-4 items-center">
-                    <p>Salle d'archives </p>
-                    <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
-                </div>
+                    </div>
                 </div>
                 
             </div>
         </div>
-        <!-- h -->
-        <div class="w-[100%] h-screen absolute items-center  pt-[100px] pl-[30%] hidden worker_form" id="addWorkerForm">
-        <form id="addWorkerForm"  class="border w-[500px] h-[400px] flex flex-col gap-4 p-4 bg-white items-center  ">
-                    <!-- <input type="text" placeholder="Name"  />
-                    <input type="text" placeholder="Role"  />
-                    Add more fields as needed 
-                    <button type="submit">Save Worker</button> -->
-                    <div class="w-[100%] flex items-center justify-between ">
-                    <h2 class="text-blue-500 text-2xl mb-[20px]"><b>Add Worker</b></h2>
-                    <button class="text-red-500 text-2xl mb-[10px] " type="button" id="hideWorkerForme"><b>X</b></button>
-                    </div>
-                    <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
-                    <div class="w-[90%] flex flex-col gap-1">
-                        <label for="name" class=" text-sm font-medium text-gray-700" >Name:</label>
-                        <input type="text" id="name" name="name"  class="border h-[40px] p-2 rounded" placeholder="Enter name">
-                        <span id="err_name" class="color"></span>
-                    </div>
-                    <div class="w-[90%] flex flex-col gap-1 ">
-                        <label for="name" class=" text-sm font-medium text-gray-700">Role:</label>
-                        <select name="" id="role" class="border rounded h-[40px]">
-                            <option value="none">select</option>
-                            <option value="Réception">Réception</option>
-                            <option value="Salle des serveurs ">Salle des serveurs </option>
-                            <option value="Salle de sécurité">Salle de sécurité</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Nettoyage ">Nettoyage </option>
-                            <option value="Autres rôles ">Autres rôles </option>
-                        </select>
-                        <span id="err_select" class="color"></span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                            <label for="photo"class="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer overflow-hidden">
-                                <span class="text-gray-500 text-sm">Add Picture</span>
-                            </label>
-                           
-                      <input type="file" id="photo" class="hidden">
-                    </div>
-                    <div class="w-[90%]">
-                        <h3><b>Experience</b></h3>
-                        <div class="flex flex-col border items-center p-2 gap-4">
-                            <div class="flex flex-col w-[100%] ">
-                            <label>company :</label>
-                            <input type="text" class="border rounded h-[30px] w-[100%] " id="company">
-                            <span id="err_company" class="color"></span>
-                            </div>
-                            <div class="flex flex-col w-[100%] ">
-                            <label>Role :</label>
-                            <input type="text" class="border rounded h-[30px] w-[100%] " id="Erole">
-                            <span id="err_role" class="color"></span>
-                            </div>
-                            <div class="flex flex-col w-[100%] ">
-                            <label>From :</label>
-                            <input type="date" class="border rounded h-[30px] w-[100%] " id="from">
-                            <span id="err_from" class="color"></span>
-                            </div>
-                            <div class="flex flex-col w-[100%] ">
-                            <label>TO :</label>
-                            <input type="date" class="border rounded h-[30px] w-[100%] " id="to">
-                            <span id="err_to" class="color"></span>
-                            </div>
-                        </div>
-                        </div>
-                    <div class="w-[90%] flex flex-col gap-1">
-                   <label for="name" class=" text-sm font-medium text-gray-700">Email:</label>
-                   <input type="text" id="email" name="email"  class="border h-[40px] p-2 rounded" >
-                   <span id="err_email" class="color"></span>
-               </div>
+        
+    </main>
+    
+    <!-- h -->
+    <div class="w-[100%] h-full absolute   hidden worker_form " id="addWorkerForm">
+    <form id="addWorkerForm"  class=" form_worker border w-[500px] h-[550px] flex flex-col gap-4 p-4 bg-white items-center m-auto mt-[2rem] ">
+                <!-- <input type="text" placeholder="Name"  />
+                <input type="text" placeholder="Role"  />
+                Add more fields as needed 
+                <button type="submit">Save Worker</button> -->
+                <div class="w-[100%] flex items-center justify-between ">
+                <h2 class="text-blue-500 text-2xl mb-[20px]"><b>Add Worker</b></h2>
+                <button class="text-red-500 text-2xl mb-[10px] " type="button" id="hideWorkerForme"><b>X</b></button>
+                </div>
+                <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
                 <div class="w-[90%] flex flex-col gap-1">
-                   <label for="name" class=" text-sm font-medium text-gray-700">Phone:</label>
-                   <input type="text" id="phone" name="phone"  class="border h-[30px] p-2 rounded" >
-                   <span id="err_phone" class="color"></span>
-               </div>
-               <div>
-                <button class="bg-blue-500 w-[100px] h-[35px] rounded-md text-white" type="button" onclick="addWorker()">Save Worker</button>
-                <button class="bg-gray-500 w-[100px] h-[35px] rounded-md text-white" type="submit" id="canceladd">Cancel</button>
-                
-               </div>
+                    <label for="name" class=" text-sm font-medium text-gray-700" >Name:</label>
+                    <input type="text" id="name" name="name"  class="border h-[40px] p-2 rounded" placeholder="Enter name">
+                    <span id="err_name" class="color"></span>
+                </div>
+                <div class="w-[90%] flex flex-col gap-1 ">
+                    <label for="name" class=" text-sm font-medium text-gray-700">Role:</label>
+                    <select name="" id="role" class="border rounded h-[40px]">
+                        <option value="none">select</option>
+                        <option value="Réception">Réception</option>
+                        <option value="Salle des serveurs ">Salle des serveurs </option>
+                        <option value="Salle de sécurité">Salle de sécurité</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Nettoyage ">Nettoyage </option>
+                        <option value="Autres rôles ">Autres rôles </option>
+                    </select>
+                    <span id="err_select" class="color"></span>
+                </div>
+                <div class="flex flex-col items-center w-[90%] flex flex-col gap-4">
+                    <label><b>YOUR PECTURE URL :</b></label>
+                    <input type="text" id="inputphoto" class="border w-[100%] h-[35px] p-2" placeholder="URL">
+                    <img src="" alt="" id="loudingphoto" class="w-[60px] h-[60px] rounded-full border">
+                       
+                       
+                  <input type="file" id="photo" class="hidden">
+                </div>
+                <div class="w-[90%]">
+                    <h3><b>Experience</b></h3>
+                    <div class="flex flex-col border items-center p-2 gap-4">
+                        <div class="flex flex-col w-[100%] ">
+                        <label>company :</label>
+                        <input type="text" class="border rounded h-[30px] w-[100%] " id="company">
+                        <span id="err_company" class="color"></span>
+                        </div>
+                        <div class="flex flex-col w-[100%] ">
+                        <label>Role :</label>
+                        <input type="text" class="border rounded h-[30px] w-[100%] " id="Erole">
+                        <span id="err_role" class="color"></span>
+                        </div>
+                        <div class="flex flex-col w-[100%] ">
+                        <label>From :</label>
+                        <input type="date" class="border rounded h-[30px] w-[100%] " id="from">
+                        <span id="err_from" class="color"></span>
+                        </div>
+                        <div class="flex flex-col w-[100%] ">
+                        <label>TO :</label>
+                        <input type="date" class="border rounded h-[30px] w-[100%] " id="to">
+                        <span id="err_to" class="color"></span>
+                        </div>
                     </div>
-
-                </main>
-
-                <!-- view worker details -->
-                <div class="w-[100%] h-screen absolute items-center  pl-[30%] pr-[30%] pb-[60px] hidden worker_form" id="viewWorkerForm">
+                    </div>
+                <div class="w-[90%] flex flex-col gap-1">
+               <label for="name" class=" text-sm font-medium text-gray-700">Email:</label>
+               <input type="text" id="email" name="email"  class="border h-[40px] p-2 rounded" >
+               <span id="err_email" class="color"></span>
+           </div>
+            <div class="w-[90%] flex flex-col gap-1">
+               <label for="name" class=" text-sm font-medium text-gray-700">Phone:</label>
+               <input type="text" id="phone" name="phone"  class="border h-[30px] p-2 rounded" >
+               <span id="err_phone" class="color"></span>
+           </div>
+           <div>
+            <button class="bg-blue-500 w-[100px] h-[35px] rounded-md text-white" type="button" onclick="addWorker()">Save Worker</button>
+            <button class="bg-gray-500 w-[100px] h-[35px] rounded-md text-white" type="submit" id="canceladd">Cancel</button>
+            
+           </div>
+                </div>
+                
+    </form>
+    </div>
+    <!-- view worker details -->
+    <div class="w-[100%] h-screen absolute items-center  pl-[30%] pr-[30%] pb-[60px] hidden worker_form" id="viewWorkerForm">
  <form id="viewWorkerDetailsForm"  class="border w-[500px] h-[500px] flex flex-col gap-4 p-4 bg-white items-center  ">
              <!-- <input type="text" placeholder="Name"  />
              <input type="text" placeholder="Role"  />
