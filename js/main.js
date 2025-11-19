@@ -1,5 +1,6 @@
 
 
+
 const addWorkerBtn = document.getElementById('addWorkerBtn');
 const addWorkerForm = document.getElementById('addWorkerForm');
 const hideWorkerForme = document.getElementById('hideWorkerForme');
@@ -73,22 +74,44 @@ function changeImage(){
 
 }
 
+// ...........experience obj --------------------//
+function getExperiencesArray() {
+  const ul = document.getElementById('expr');
+  let experiences = [];
+  ul.querySelectorAll('li').forEach(li => {
+    const company = li.querySelector('.company').value;
+    const role    = li.querySelector('.Erole').value;
+    const from    = li.querySelector('.From').value;
+    const to      = li.querySelector('.To').value;
+    experiences.push({
+      company,
+      role,
+      from,
+      to
+    });
+  });
+  return experiences;
+}
+
+
 
 // =============== add workers ===============//
 function addWorker() {
     if (!validateForm()) return;
+     const experiences = getExperiencesArray();
 
     // Create worker object
     const worker = {
         fullname: fullname.value,
         role: role.value,
         img: inphoto.value,
-        company: companyInput.value,
-        exrole: EroleInput.value,
-        from: fromInput.value,
-        to: toInput.value,
+        // company: companyInput.value,
+        // exrole: EroleInput.value,
+        // from: fromInput.value,
+        // to: toInput.value,
         email: emailInput.value,
-        phone: phoneInput.value
+        phone: phoneInput.value,
+        experiences: experiences,
     };
 
     // Add to array
@@ -172,31 +195,31 @@ if (fullname.value.trim() === '' || !nameRegex.test(fullname.value.trim())) {
 }   else {  
     errorname.textContent = "";
 }   
-if (companyInput.value.trim() === '') {
-    errorcompany.textContent = "Company name is required.";
-    isValid = false;
-} else {
-    errorcompany.textContent = "";
-}   
-if (EroleInput.value.trim() === '') {
-    erroreRole.textContent = "Employee role is required.";
-    isValid = false;
-} else {
-    erroreRole.textContent = "";
-}
-if (fromInput.value === '') {
-    errorfrom.textContent = "Start date is required.";  
-    isValid = false;
-} else {
-    errorfrom.textContent = "";
-}   
-if (toInput.value === '') {
-    errorto.textContent = "End date is required.";
-    isValid = false;
-}
-    else {
-    errorto.textContent = "";
-}
+// if (companyInput.value.trim() === '') {
+//     errorcompany.textContent = "Company name is required.";
+//     isValid = false;
+// } else {
+//     errorcompany.textContent = "";
+// }   
+// if (EroleInput.value.trim() === '') {
+//     erroreRole.textContent = "Employee role is required.";
+//     isValid = false;
+// } else {
+//     erroreRole.textContent = "";
+// }
+// if (fromInput.value === '') {
+//     errorfrom.textContent = "Start date is required.";  
+//     isValid = false;
+// } else {
+//     errorfrom.textContent = "";
+// }   
+// if (toInput.value === '') {
+//     errorto.textContent = "End date is required.";
+//     isValid = false;
+// }
+//     else {
+//     errorto.textContent = "";
+// }
 if(emailInput.value.trim() === '' || !emailRegex.test(emailInput.value.trim())) {
     erroremail.textContent = "Please enter a valid email address.";
     isValid = false;
@@ -218,6 +241,71 @@ if(role.value === '' || role.value === 'none') {
 return isValid;
 }
 
+// ================ add experience ====================//
+function addexpr() {
+  const ul = document.getElementById('expr');
+  let li = document.createElement('li');
+  li.innerHTML = `
+    <div class=" containex flex flex-col border items-center p-2 gap-4">
+      <button class="removeBtn text-red-500 font-bold ml-3" type="button">X</button>
+      <div class="flex flex-col w-[100%] ">
+        <label>Company : </label>
+        <input type="text" class="border rounded h-[30px] w-[100%] company" name="company">
+      </div>
+      <div class="flex flex-col w-[100%] ">
+        <label>Role : </label>
+        <input type="text" class="border rounded h-[30px] w-[100%] Erole" name="Erole">
+      </div>
+      <div class="flex flex-col w-[100%] ">
+        <label>From : /label>
+        <input type="date" class="border rounded h-[30px] w-[100%] From" name="from">
+      </div>
+      <div class="flex flex-col w-[100%] ">
+        <label>TO : </label>
+        <input type="date" class="border rounded h-[30px] w-[100%] To" name="to">
+      </div>
+    </div>
+  `;
+  li.querySelector(".removeBtn").addEventListener("click", function() {
+    li.remove();
+  });
+  ul.appendChild(li);
+}
+
+function renderWorkers() {
+  ul.innerHTML = '';
+  workers.forEach((worker, index) => {
+    let li = document.createElement('li');
+    li.classList.add('listC');
+    li.setAttribute('data-index', index);
+    li.innerHTML = `
+      <div class="flex gap-6 h-[40px]">
+        <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
+        <div>
+          <div>${worker.fullname}</div>
+          <div>${worker.role}</div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <button class="editBtn text-yellow-500 font-bold ml-3" data-index="${index}">edit</button>
+        <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
+      </div>
+    `;
+    ul.appendChild(li);
+  });
+}
+
+
+ul.addEventListener('click', function(event) {
+  const index = event.target.dataset.index;
+  if (event.target.classList.contains('deleteBtn')) {
+    if (confirm("Are you sure you want to delete this worker?")) {
+      workers.splice(index, 1);
+      localStorage.setItem("workers", JSON.stringify(workers));
+      renderWorkers();
+    }
+  }
+});
 
 
 

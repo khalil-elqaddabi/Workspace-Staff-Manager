@@ -84,7 +84,7 @@
                 <h2 class="text-blue-500 text-2xl mb-[20px]"><b>Add Worker</b></h2>
                 <button class="text-red-500 text-2xl mb-[10px] " type="button" id="hideWorkerForme"><b>X</b></button>
                 </div>
-                <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
+                <div class="w-[100%] flex items-center flex-col overflow-y-scroll  h-[100%] gap-4">
                 <div class="w-[90%] flex flex-col gap-1">
                     <label for="name" class=" text-sm font-medium text-gray-700" >Name:</label>
                     <input type="text" id="name" name="name"  class="border h-[40px] p-2 rounded" placeholder="Enter name">
@@ -111,30 +111,18 @@
                        
                   <input type="file" id="photo" class="hidden">
                 </div>
-                <div class="w-[90%]">
+
+                <div class="w-[90%] flex flex-col gap-2">
                     <h3><b>Experience</b></h3>
-                    <div class="flex flex-col border items-center p-2 gap-4">
-                        <div class="flex flex-col w-[100%] ">
-                        <label>company :</label>
-                        <input type="text" class="border rounded h-[30px] w-[100%] " id="company">
-                        <span id="err_company" class="color"></span>
+                     <ul id="expr" class="w-[100%]">
+                   
+                                           </ul>
+                                <div class="flex flex-col items-center">
+
+                        <button class="border w-[90px] h-[20px] bg-blue-500" type="button" onclick="addexpr()">add experience</button>
                         </div>
-                        <div class="flex flex-col w-[100%] ">
-                        <label>Role :</label>
-                        <input type="text" class="border rounded h-[30px] w-[100%] " id="Erole">
-                        <span id="err_role" class="color"></span>
-                        </div>
-                        <div class="flex flex-col w-[100%] ">
-                        <label>From :</label>
-                        <input type="date" class="border rounded h-[30px] w-[100%] " id="from">
-                        <span id="err_from" class="color"></span>
-                        </div>
-                        <div class="flex flex-col w-[100%] ">
-                        <label>TO :</label>
-                        <input type="date" class="border rounded h-[30px] w-[100%] " id="to">
-                        <span id="err_to" class="color"></span>
-                        </div>
-                    </div>
+                        
+                    
                     </div>
                 <div class="w-[90%] flex flex-col gap-1">
                <label for="name" class=" text-sm font-medium text-gray-700">Email:</label>
