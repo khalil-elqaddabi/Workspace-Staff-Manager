@@ -48,6 +48,8 @@ cancelAddBtn.addEventListener('click', function(event) {
 
 
 
+
+
 addWorkerBtn.addEventListener('click', function() {
   // document.body.classList.add("hidden")
     // document.body.style.display = 'none'
@@ -98,51 +100,27 @@ function getExperiencesArray() {
 // =============== add workers ===============//
 function addWorker() {
     if (!validateForm()) return;
-     const experiences = getExperiencesArray();
-
-    // Create worker object
+    const experiences = getExperiencesArray();
     const worker = {
         fullname: fullname.value,
         role: role.value,
         img: inphoto.value,
-        // company: companyInput.value,
-        // exrole: EroleInput.value,
-        // from: fromInput.value,
-        // to: toInput.value,
         email: emailInput.value,
         phone: phoneInput.value,
         experiences: experiences,
     };
-
     // Add to array
     workers.push(worker);
-
     // Save
     localStorage.setItem("workers", JSON.stringify(workers));
-
-    // Add to UI
-    let li = document.createElement('li');
-    li.classList.add('listC');
-
-    li.innerHTML = `
-        <div class="flex gap-6 h-[40px]">
-            <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
-            <div>
-                <div>${worker.fullname}</div>
-                <div>${worker.role}</div>
-            </div>
-        </div>
-        <div class="flex flex-col">
-            <button class="editBtn text-yellow-500 font-bold ml-3">edit</button>
-            <button class="deleteBtn text-red-500 font-bold ml-3">delete</button>
-        </div>
-    `;
-
-    ul.appendChild(li);
-
+    // ONLY call renderWorkers (NO manual <li>)
+    renderWorkers();
+    document.getElementById("expr").innerHTML = "";
     addWorkerForm.style.display = 'none';
     clearForm();
 }
+
+
 // 
 function clearForm() {
   fullname.value = '';
@@ -272,42 +250,108 @@ function addexpr() {
   ul.appendChild(li);
 }
 
-function renderWorkers() {
-  ul.innerHTML = '';
-  workers.forEach((worker, index) => {
-    let li = document.createElement('li');
-    li.classList.add('listC');
-    li.setAttribute('data-index', index);
-    li.innerHTML = `
-      <div class="flex gap-6 h-[40px]">
-        <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
-        <div>
-          <div>${worker.fullname}</div>
-          <div>${worker.role}</div>
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <button class="editBtn text-yellow-500 font-bold ml-3" data-index="${index}">edit</button>
-        <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
-      </div>
-    `;
-    ul.appendChild(li);
-  });
-}
+// function renderWorkers() {
+//   ul.innerHTML = '';
+//   workers.forEach((worker, index) => {
+//     let li = document.createElement('li');
+//     li.classList.add('listC');
+//     li.setAttribute('data-index', index);
+//     li.innerHTML = `
+//       <div class="flex gap-6 h-[40px]">
+//         <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
+//         <div>
+//           <div>${worker.fullname}</div>
+//           <div>${worker.role}</div>
+//         </div>
+//       </div>
+//       <div class="flex flex-col">
+//         <button class="editBtn text-yellow-500 font-bold ml-3" data-index="${index}">edit</button>
+//         <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
+//       </div>
+//     `;
+//     ul.appendChild(li);
+//   });
+// }
+
+
+// ul.addEventListener('click', function(event) {
+//   const index = event.target.dataset.index;
+//   if (event.target.classList.contains('deleteBtn')) {
+//     if (confirm("Are you sure you want to delete this worker?")) {
+//       workers.splice(index, 1);
+//       localStorage.setItem("workers", JSON.stringify(workers));
+//       renderWorkers();
+//     }
+//   }
+// });
 
 
 ul.addEventListener('click', function(event) {
-  const index = event.target.dataset.index;
-  if (event.target.classList.contains('deleteBtn')) {
-    if (confirm("Are you sure you want to delete this worker?")) {
-      workers.splice(index, 1);
-      localStorage.setItem("workers", JSON.stringify(workers));
-      renderWorkers();
+    if (event.target.classList.contains('deleteBtn')) {
+        const btn = event.target;
+        const index = btn.getAttribute('data-index');
+        // Remove from workers array
+        workers.splice(index, 1);
+        localStorage.setItem("workers", JSON.stringify(workers));
+        renderWorkers(); // <-- Refreshes list & handlers!
     }
-  }
 });
 
 
+
+function showWorkerDetails(worker) {
+  const viewWorkerForm = document.getElementById('viewWorkerForm');
+  document.getElementById('viewName').textContent = worker.fullname;
+  document.getElementById('viewRole').textContent = worker.role;
+  document.getElementById('viewPhoto').src = worker.img || "";
+  document.getElementById('viewEmail').textContent = worker.email || "";
+document.getElementById('viewPhone').textContent = worker.phone || "";
+
+  
+  // If you want to show experiences:
+  let exHtml = "";
+  worker.experiences.forEach(ex => {
+    exHtml += `<div><b>${ex.role}</b> at ${ex.company} (${ex.from} - ${ex.to})</div>`;
+  });
+  document.getElementById("someExperienceDiv").innerHTML = exHtml;
+  
+  viewWorkerForm.style.display = 'block';
+}
+
+
+function renderWorkers() {
+    ul.innerHTML = '';
+    workers.forEach((worker, index) => {
+        let li = document.createElement('li');
+        li.classList.add('listC');
+        li.setAttribute('data-index', index);
+
+        li.innerHTML = `
+            <div class="flex gap-6 h-[40px]">
+                <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
+                <div>
+                    <div>${worker.fullname}</div>
+                    <div>${worker.role}</div>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
+            </div>
+        `;
+
+        li.addEventListener('click', function(e) {
+            if (e.target.classList.contains('deleteBtn')) return;
+            showWorkerDetails(worker);
+        });
+
+        ul.appendChild(li);
+    });
+}
+
+
+
+
+window.addEventListener('DOMContentLoaded', renderWorkers);
 
 
 
