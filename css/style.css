@@ -82,6 +82,10 @@ background-color: rgba(0, 0, 255, 0.381);
     border-radius: 1rem;
 }
 
+.worker_form{
+    background-color: #00000085;
+}
+
 
 @media (max-width: 1200px){
 

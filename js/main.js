@@ -108,6 +108,7 @@ function addWorker() {
         email: emailInput.value,
         phone: phoneInput.value,
         experiences: experiences,
+        assignedSalle: null 
     };
     // Add to array
     workers.push(worker);
@@ -300,61 +301,193 @@ ul.addEventListener('click', function(event) {
 
 
 function showWorkerDetails(worker) {
-  const viewWorkerForm = document.getElementById('viewWorkerForm');
-  document.getElementById('viewName').textContent = worker.fullname;
-  document.getElementById('viewRole').textContent = worker.role;
-  document.getElementById('viewPhoto').src = worker.img || "";
-  document.getElementById('viewEmail').textContent = worker.email || "";
-document.getElementById('viewPhone').textContent = worker.phone || "";
-
-  
-  // If you want to show experiences:
-  let exHtml = "";
-  worker.experiences.forEach(ex => {
-    exHtml += `<div><b>${ex.role}</b> at ${ex.company} (${ex.from} - ${ex.to})</div>`;
-  });
-  document.getElementById("someExperienceDiv").innerHTML = exHtml;
-  
-  viewWorkerForm.style.display = 'block';
+    const viewWorkerForm = document.getElementById('viewWorkerForm');
+    document.getElementById('viewName').textContent = worker.fullname;
+    document.getElementById('viewRole').textContent = worker.role;
+    document.getElementById('viewPhoto').src = worker.img || "";
+    document.getElementById('viewEmail').textContent = worker.email || "";
+    document.getElementById('viewPhone').textContent = worker.phone || "";
+    let exHtml = "";
+    worker.experiences.forEach(ex => {
+        exHtml += `<div><b>${ex.role}</b> at ${ex.company} (${ex.from} - ${ex.to})</div>`;
+    });
+    document.getElementById("someExperienceDiv").innerHTML = exHtml;
+    viewWorkerForm.style.display = 'block';
 }
+
 
 
 function renderWorkers() {
     ul.innerHTML = '';
     workers.forEach((worker, index) => {
-        let li = document.createElement('li');
-        li.classList.add('listC');
-        li.setAttribute('data-index', index);
-
-        li.innerHTML = `
-            <div class="flex gap-6 h-[40px]">
-                <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black">
-                <div>
-                    <div>${worker.fullname}</div>
-                    <div>${worker.role}</div>
+        // Only show workers NOT assigned to any salle!
+        if (worker.assignedSalle == null) {
+            let li = document.createElement('li');
+            li.classList.add('listC');
+            li.setAttribute('data-index', index);
+            li.innerHTML = `
+                <div class="flex gap-6 h-[40px]">
+                    <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" onerror="this.src='https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn'">
+                    <div>
+                        <div>${worker.fullname}</div>
+                        <div>${worker.role}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col">
-                <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
-            </div>
-        `;
-
-        li.addEventListener('click', function(e) {
-            if (e.target.classList.contains('deleteBtn')) return;
-            showWorkerDetails(worker);
-        });
-
-        ul.appendChild(li);
+                <div class="flex flex-col">
+                    <button class="deleteBtn text-red-500 font-bold ml-3" data-index="${index}">delete</button>
+                </div>
+            `;
+            li.addEventListener('click', function(e) {
+                if (e.target.classList.contains('deleteBtn')) return;
+                showWorkerDetails(worker);
+            });
+            ul.appendChild(li);
+        }
     });
 }
 
 
 
 
-window.addEventListener('DOMContentLoaded', renderWorkers);
+
+
+
+// ===============assign=========================//
+const assignbtn = document.getElementById('hideassignForme')
+const assign = document.getElementById('assignmentForme')
+const showAssign = document.querySelectorAll('.div');
+
+// showAssign.forEach(div => {
+//   const plusBtn = div.querySelector('button');
+//   if (plusBtn) {
+//     plusBtn.addEventListener('click', function(event) {
+//       event.preventDefault();
+//       assign.style.display = 'block';
+     
+//     });
+//   }
+// });
+
+assign.addEventListener('click',function(e){
+  e.preventDefault()
+  assign.style.display ='none'
+})
+// showAssign.addEventListener('click',function(f){
+//   f.preventDefault()
+//   assign.style.display ='block'
+// })
+
+
+// --- SALLE NAMES ARRAY ---
+const salleNames = [
+    "Salle_de_conférence",
+    "Salle_de_serveurs",
+    "Salle_des_securete",
+    "Salle_de_Réception",
+    "Salle_de-stuff",
+    "salle_de_vault"
+];
+
+
+// When "+" is clicked inside a salle, show assignment modal for that salle:
+document.querySelectorAll('.div').forEach(div => {
+    const plusBtn = div.querySelector('button');
+    if (plusBtn) {
+        plusBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const salleId = div.id; // the id="Salle_de_conférence" etc
+            showAssignModal(salleId);
+        });
+    }
+});
 
 
 
 
 
+
+
+
+
+function showAssignModal(salleId) {
+    assign.style.display = 'block';
+    assign.setAttribute('data-salle', salleId);
+
+    const container = document.querySelector('.assign_comtainer');
+    container.innerHTML = '';
+    workers.forEach((worker, i) => {
+        // Only workers NOT assigned AND have salahiya for this salle!
+        if (
+          worker.assignedSalle == null &&
+          Array.isArray(worker.salahiya) &&
+          worker.salahiya.includes(salleId)
+        ) {
+            let item = document.createElement('div');
+            item.innerHTML = `
+                ${worker.fullname} (${worker.role})
+                <button class="assignWorkerBtn" data-i="${i}">Assign</button>
+            `;
+            container.appendChild(item);
+        }
+    });
+
+    // Handler as before!
+    container.querySelectorAll('.assignWorkerBtn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            let idx = parseInt(btn.getAttribute('data-i'));
+            let targetSalle = assign.getAttribute('data-salle');
+            assignWorkerToSalle(idx, targetSalle);
+        });
+    });
+}
+
+
+
+// Actually assign worker and update everything
+function assignWorkerToSalle(idx, salleId) {
+    workers[idx].assignedSalle = salleId;
+    localStorage.setItem("workers", JSON.stringify(workers));
+    renderWorkers();
+    renderSalleMembers(salleId);
+    assign.style.display = 'none';
+}
+
+
+
+function renderSalleMembers(salleId) {
+    const salleDiv = document.getElementById(salleId);
+    if (!salleDiv) return;
+    const assignedDiv = salleDiv.querySelector('.assigned-workers');
+    assignedDiv.innerHTML = '';
+    workers.forEach((worker, i) => {
+        if (worker.assignedSalle === salleId) {
+            let item = document.createElement('div');
+            item.innerHTML = `
+                ${worker.fullname} (${worker.role})
+                <button class="unassignWorkerBtn" data-i="${i}">Remove</button>
+            `;
+            item.querySelector('.unassignWorkerBtn').addEventListener('click', function() {
+                workers[i].assignedSalle = null;
+                localStorage.setItem("workers", JSON.stringify(workers));
+                renderWorkers();
+                renderSalleMembers(salleId);
+            });
+            assignedDiv.appendChild(item);
+        }
+    });
+}
+
+// Call renderSalleMembers(salleName) for each salle on page load & after every assignment!
+
+
+assignbtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    assign.style.display = 'none';
+});
+
+
+window.addEventListener('DOMContentLoaded', function() {
+    renderWorkers();
+    salleNames.forEach(renderSalleMembers);
+});
 
