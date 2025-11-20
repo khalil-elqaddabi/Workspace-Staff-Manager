@@ -368,7 +368,7 @@ const showAssign = document.querySelectorAll('.div');
 //   }
 // });
 
-assign.addEventListener('click',function(e){
+assignbtn.addEventListener('click',function(e){
   e.preventDefault()
   assign.style.display ='none'
 })
@@ -408,19 +408,20 @@ document.querySelectorAll('.div').forEach(div => {
 
 
 
-
 function showAssignModal(salleId) {
     assign.style.display = 'block';
     assign.setAttribute('data-salle', salleId);
 
+    // Map HTML id to Room_Rules key
+    let roomName = salleIdToRoomName(salleId);
+
     const container = document.querySelector('.assign_comtainer');
     container.innerHTML = '';
     workers.forEach((worker, i) => {
-        // Only workers NOT assigned AND have salahiya for this salle!
         if (
-          worker.assignedSalle == null &&
-          Array.isArray(worker.salahiya) &&
-          worker.salahiya.includes(salleId)
+            worker.assignedSalle == null &&
+            Room_Rules[roomName] &&
+            Room_Rules[roomName].includes(worker.role)
         ) {
             let item = document.createElement('div');
             item.innerHTML = `
@@ -431,15 +432,15 @@ function showAssignModal(salleId) {
         }
     });
 
-    // Handler as before!
     container.querySelectorAll('.assignWorkerBtn').forEach(btn => {
         btn.addEventListener('click', function() {
             let idx = parseInt(btn.getAttribute('data-i'));
-            let targetSalle = assign.getAttribute('data-salle');
-            assignWorkerToSalle(idx, targetSalle);
+            assignWorkerToSalle(idx, salleId);
         });
     });
 }
+
+
 
 
 
@@ -463,8 +464,12 @@ function renderSalleMembers(salleId) {
         if (worker.assignedSalle === salleId) {
             let item = document.createElement('div');
             item.innerHTML = `
+            <div class"flex w-[20px] flex-col itemes-center bg-with">
+                <div class="flex flex-col ">
                 ${worker.fullname} (${worker.role})
-                <button class="unassignWorkerBtn" data-i="${i}">Remove</button>
+                </div>
+                <button class="unassignWorkerBtn text-red" data-i="${i}"><b>X</b></button>
+                </div>
             `;
             item.querySelector('.unassignWorkerBtn').addEventListener('click', function() {
                 workers[i].assignedSalle = null;
@@ -490,4 +495,27 @@ window.addEventListener('DOMContentLoaded', function() {
     renderWorkers();
     salleNames.forEach(renderSalleMembers);
 });
+
+const Room_Rules = {
+  "Conference Room": ["IT Guy", "Receptionist", "Other", "Manager", "Cleaning"],
+  "Servers Room": ["IT Guy", "Manager", "Cleaning"],
+  "Security Room": ["Security", "Manager", "Cleaning"],
+  "Reception": ["Receptionist", "Manager", "Cleaning", "Other"],
+  "Staff Room": ["IT Guy", "Receptionist", "Security", "Cleaning", "Other", "Manager"],
+  "Vault": ["Security", "Manager"]
+};
+
+
+function salleIdToRoomName(salleId) {
+    switch(salleId) {
+        case 'Salle_de_conférence': return 'Conference Room';
+        case 'Salle_de_serveurs': return 'Servers Room';
+        case 'Salle_des_securete': return 'Security Room';
+        case 'Salle_de_Réception': return 'Reception';
+        case 'Salle_de-stuff': return 'Staff Room';
+        case 'salle_de_vault': return 'Vault';
+        default: return '';
+    }
+}
+
 

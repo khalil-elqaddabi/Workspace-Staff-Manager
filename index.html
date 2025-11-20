@@ -13,7 +13,7 @@
     <section class="globale_section flex flex-col items-center justify-center h-full ">
         <main class="globale__container flex flex-col gap-8  items-center w-[100%] h-screen">
             <h1 class="globale__title text-6xl w-[500px] h-[10%] bg-blue-100 mt-[10px]"> <b>Workspace Staff Manager</b></h1>
-            <div class="body_container flex gap-4 items-center justify-between w-[90%] h-[90%] p-2 ">
+            <div class="body_container flex gap-4 items-center justify-between w-[100%] h-[90%] p-2 ">
             <nav class="worker_bar border w-[400px] h-[100%] min-w-[300px]">
                 <div class="flex flex-col border w-100% h-[100%] flex flex-col items-center gap-4">
                     <h2 class="mt-[10px]  text-blue-500 text-2xl"><b>STAFF MEMBRES</b></h2>
@@ -39,8 +39,8 @@
                    
                 </div>
             </nav>
-            <div class=" floor_container w-[800px] h-[500px] flex items-center justify-end">
-            <div class="floor_plan  border  w-[800px] h-[400px] bg-white">
+            <div class=" floor_container w-full h-full flex items-center justify-end">
+            <div class="floor_plan  border  w-full h-full bg-white">
                 <div class="div1 div flex flex-col  gap-4 items-center justify-center" id="Salle_de_conférence">
                     <p>Salle de conférence </p>
                     <button class="bg-blue-500 w-[30px] h-[20px] rounded-[40%] flex items-center justify-center cursor-pointer">+</button>
@@ -104,16 +104,16 @@
                 </div>
                 <div class="w-[90%] flex flex-col gap-1 ">
                     <label for="name" class=" text-sm font-medium text-gray-700">Role:</label>
-                    <select name="" id="role" class="border rounded h-[40px]">
-                        <option value="none">select</option>
-                        <option value="Réception">Réception</option>
-                        <option value="Salle des serveurs ">Salle des serveurs </option>
-                        <option value="Salle de sécurité">Salle de sécurité</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Nettoyage ">Nettoyage </option>
-                        <option value="Autres rôles ">Autres rôles </option>
-                    </select>
-                    <span id="err_select" class="color"></span>
+                <select name="" id="role" class="border rounded h-[40px]">
+                    <option value="none">select</option>
+                    <option value="IT Guy">IT Guy</option>
+                    <option value="Receptionist">Receptionist</option>
+                    <option value="Security">Security</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Cleaning">Cleaning</option>
+                    <option value="Other">Other</option>
+                </select>
+                                    <span id="err_select" class="color"></span>
                 </div>
                 <div class="flex flex-col items-center w-[90%] flex flex-col gap-4">
                     <label><b>YOUR PECTURE URL :</b></label>
