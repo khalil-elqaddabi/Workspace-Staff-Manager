@@ -463,12 +463,13 @@ function renderSalleMembers(salleId) {
     workers.forEach((worker, i) => {
         if (worker.assignedSalle === salleId) {
             let item = document.createElement('div');
+            item.className = 'w-fit'
             item.innerHTML = `
-            <div class"flex w-[20px] flex-col itemes-center bg-with">
-                <div class="flex flex-col ">
-                ${worker.fullname} (${worker.role})
+            <div class="flex w-[60px] flex-col items-center bg-white rounded-full">
+                <div class="flex flex-col text-sm items-center ">
+                <p>${worker.fullname}</p> <p>(${worker.role})</p>
                 </div>
-                <button class="unassignWorkerBtn text-red" data-i="${i}"><b>X</b></button>
+                <button class="unassignWorkerBtn text-red-500" data-i="${i}"><b>X</b></button>
                 </div>
             `;
             item.querySelector('.unassignWorkerBtn').addEventListener('click', function() {
