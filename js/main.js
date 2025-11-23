@@ -424,9 +424,15 @@ function showAssignModal(salleId) {
             Room_Rules[roomName].includes(worker.role)
         ) {
             let item = document.createElement('div');
+            item.classList.add('hello')
             item.innerHTML = `
-                ${worker.fullname} (${worker.role})
-                <button class="assignWorkerBtn" data-i="${i}">Assign</button>
+            <div class="flex justify-between items-center w-[100%] p-8 gap-4">
+            <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" onerror="this.src='https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn'">
+            <div class="flex flex-col gap-2 w-[80%] h-[30px] ">
+               <p> ${worker.fullname}</p> <p>${worker.role}</p>
+                </div>
+                <button class="assignWorkerBtn text-blue-300 text-lg" data-i="${i}">Assign</button>
+                </div>
             `;
             container.appendChild(item);
         }
@@ -518,5 +524,51 @@ function salleIdToRoomName(salleId) {
         default: return '';
     }
 }
+
+
+
+function renderSalleMembers(salleId) {
+    const salleDiv = document.getElementById(salleId);
+    if (!salleDiv) return;
+    const assignedDiv = salleDiv.querySelector('.assigned-workers');
+    assignedDiv.innerHTML = '';
+    workers.forEach((worker, i) => {
+        if (worker.assignedSalle === salleId) {
+            let item = document.createElement('div');
+            item.className = 'w-fit';
+
+            item.innerHTML = `
+                <div class="flex w-[60px] flex-col items-center bg-white rounded-full room-worker-card cursor-pointer">
+                    <div class="flex flex-col text-sm items-center ">
+                        <p>${worker.fullname}</p> <p>(${worker.role})</p>
+                    </div>
+                    <button class="unassignWorkerBtn text-red-500" data-i="${i}"><b>X</b></button>
+                </div>
+            `;
+            
+            // Show worker details on card click (like sidebar)
+            item.querySelector('.room-worker-card').addEventListener("click", function(e) {
+                // Prevent show if 'X' is clicked!
+                if (e.target.classList.contains('unassignWorkerBtn')) return;
+                showWorkerDetails(worker);
+            });
+            
+            // Un-assign button
+            item.querySelector('.unassignWorkerBtn').addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent triggering details popup
+                workers[i].assignedSalle = null;
+                localStorage.setItem("workers", JSON.stringify(workers));
+                renderWorkers();
+                renderSalleMembers(salleId);
+            });
+            assignedDiv.appendChild(item);
+        }
+    });
+}
+
+
+
+
+
 
 
