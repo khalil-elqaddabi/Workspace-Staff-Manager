@@ -225,8 +225,8 @@ function addexpr() {
   const ul = document.getElementById('expr');
   let li = document.createElement('li');
   li.innerHTML = `
-    <div class=" containex flex flex-col border items-center p-2 gap-4">
-      <button class="removeBtn text-red-500 font-bold ml-3" type="button">X</button>
+    <div class=" containex flex flex-col border items-center p-2 gap-4 bg-gray-300 mb-2">
+      <button class="removeBtn text-red-500 font-bold ml-3 text-lg" type="button">X</button>
       <div class="flex flex-col w-[100%] ">
         <label>Company : </label>
         <input type="text" class="border rounded h-[30px] w-[100%] company" name="company">
