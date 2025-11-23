@@ -164,31 +164,31 @@
    <!-- VIEW WORKER DETAILS MODAL -->
 <div id="viewWorkerForm" class="w-[100%] h-screen absolute items-center pl-[30%] pr-[30%] pb-[60px] worker_form" style="display:none;">
     <form id="viewWorkerDetailsForm" class="border w-[500px] h-[500px] flex flex-col gap-4 p-4 bg-white items-center mt-[20px]">
-        <div class="w-[100%] flex items-center justify-between bg-blue-200 p-2 rounded-md ">
-            <h2 class="text-blue-500 text-2xl mb-[20px]"><b>Worker Details</b></h2>
+        <div class="w-[100%] flex items-center justify-between p-2 rounded-md ">
+            <h2 class="text-blue-500 text-4xl mb-[20px]"><b>Worker Details</b></h2>
             <button class="text-red-500 text-2xl mb-[10px]" type="button" id="hideviewerForme"><b>X</b></button>
         </div>
-        <div class="w-[100%] flex items-center flex-col overflow-y-scroll bg-blue-200 h-[100%] gap-4">
-            <div class="w-[90%] flex flex-col gap-1">
-                <label>Name:</label>
-                <p id="viewName"></p>
-            </div>
-            <div class="w-[90%] flex flex-col gap-1">
-                <label>Role:</label>
-                <p id="viewRole"></p>
-            </div>
+        <div class="w-[100%] flex items-center flex-col overflow-y-scroll border h-[100%] gap-4 bg-gray-300">
             <div class="flex flex-col items-center">
                 <img id="viewPhoto" class="w-28 h-28 rounded-full" alt="Photo" onerror="this.src='https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn'">
             </div>
-            <div class="w-[90%] flex flex-col gap-1">
+            <div class="w-[90%] flex flex-col gap-1 border bg-white p-4 rounded">
+                <label>Name:</label>
+                <p id="viewName"></p>
+            </div>
+            <div class="w-[90%] flex flex-col gap-1 border bg-white p-4 rounded">
+                <label>Role:</label>
+                <p id="viewRole"></p>
+            </div>
+            <div class="w-[90%] flex flex-col gap-1 border bg-white p-4 rounded">
                 <label>Email:</label>
                 <p id="viewEmail"></p>
             </div>
-            <div class="w-[90%] flex flex-col gap-1">
+            <div class="w-[90%] flex flex-col gap-1 border bg-white p-4 rounded">
                 <label>Phone:</label>
                 <p id="viewPhone"></p>
             </div>
-            <div class="w-[90%] flex flex-col gap-2">
+            <div class="w-[90%] flex flex-col gap-2 border bg-white p-4 rounded">
                 <h3><b>Experiences</b></h3>
                 <div id="someExperienceDiv"></div>
             </div>
