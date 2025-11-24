@@ -466,26 +466,19 @@ function renderSalleMembers(salleId) {
     if (!salleDiv) return;
     const assignedDiv = salleDiv.querySelector('.assigned-workers');
     assignedDiv.innerHTML = '';
+
+    // --> RED INDICATOR LOGIC
+    let hasAssigned = workers.some(worker => worker.assignedSalle === salleId);
+    if (!hasAssigned) {
+        salleDiv.classList.add('border-4', 'border-red-500'); // Or add bg-red-100 for background
+    } else {
+        salleDiv.classList.remove('border-4', 'border-red-500');
+    }
+
+    // ... keep rest of your worker appending code here ...
     workers.forEach((worker, i) => {
         if (worker.assignedSalle === salleId) {
-            let item = document.createElement('div');
-            item.className = 'w-fit'
-            item.innerHTML = `
-            <div class="flex w-[70px] h-[70px] flex-col items-center bg-black rounded-full">
-                <div class="flex flex-col text-sm items-center ">
-                <p>${worker.fullname}</p> 
-                <p>(${worker.role})</p>
-                </div>
-                <button class="unassignWorkerBtn text-red-500" data-i="${i}"><b>X</b></button>
-                </div>
-            `;
-            item.querySelector('.unassignWorkerBtn').addEventListener('click', function() {
-                workers[i].assignedSalle = null;
-                localStorage.setItem("workers", JSON.stringify(workers));
-                renderWorkers();
-                renderSalleMembers(salleId);
-            });
-            assignedDiv.appendChild(item);
+            // ... existing code ...
         }
     });
 }
@@ -533,30 +526,39 @@ function renderSalleMembers(salleId) {
     if (!salleDiv) return;
     const assignedDiv = salleDiv.querySelector('.assigned-workers');
     assignedDiv.innerHTML = '';
+
+    // Red indicator logic: skip conference & staff rooms
+    let hasAssigned = workers.some(worker => worker.assignedSalle === salleId);
+
+    if (
+        !hasAssigned &&
+        salleId !== "Salle_de_conférence" &&
+        salleId !== "Salle_de-stuff"
+    ) {
+        salleDiv.classList.add('empty');
+    } else {
+        salleDiv.classList.remove('empty');
+    }
+
+    // Render assigned workers
     workers.forEach((worker, i) => {
         if (worker.assignedSalle === salleId) {
             let item = document.createElement('div');
             item.className = 'w-fit';
-
             item.innerHTML = `
-                <div class="flex w-[70px]  flex-col items-center bg-white rounded-full room-worker-card cursor-pointer">
+                <div class="flex w-[70px] flex-col items-center bg-white rounded-full room-worker-card cursor-pointer">
                     <div class="flex flex-col text-sm items-center ">
                         <p>${worker.fullname}</p> <p>(${worker.role})</p>
                     </div>
                     <button class="unassignWorkerBtn text-red-500" data-i="${i}"><b>X</b></button>
                 </div>
             `;
-            
-            // Show worker details on card click (like sidebar)
             item.querySelector('.room-worker-card').addEventListener("click", function(e) {
-                // Prevent show if 'X' is clicked!
                 if (e.target.classList.contains('unassignWorkerBtn')) return;
                 showWorkerDetails(worker);
             });
-            
-            // Un-assign button
             item.querySelector('.unassignWorkerBtn').addEventListener('click', function(event) {
-                event.stopPropagation(); // Prevent triggering details popup
+                event.stopPropagation();
                 workers[i].assignedSalle = null;
                 localStorage.setItem("workers", JSON.stringify(workers));
                 renderWorkers();
@@ -566,6 +568,7 @@ function renderSalleMembers(salleId) {
         }
     });
 }
+
 
 
 
