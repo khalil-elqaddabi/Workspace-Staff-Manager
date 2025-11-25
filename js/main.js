@@ -35,6 +35,8 @@ const inphoto  = document.getElementById('inputphoto');
 const upphoto  = document.getElementById('loudingphoto');
 const edit = document.querySelector('.edit'); 
 
+let link_img = 'https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn';
+
 
 // ===================== locale storyge =======================//
 let workers = JSON.parse(localStorage.getItem("workers")) || [];
@@ -291,10 +293,10 @@ ul.addEventListener('click', function(event) {
     if (event.target.classList.contains('deleteBtn')) {
         const btn = event.target;
         const index = btn.getAttribute('data-index');
-        // Remove from workers array
+       
         workers.splice(index, 1);
         localStorage.setItem("workers", JSON.stringify(workers));
-        renderWorkers(); // <-- Refreshes list & handlers!
+        renderWorkers(); 
     }
 });
 
@@ -327,7 +329,7 @@ function renderWorkers() {
             li.setAttribute('data-index', index);
             li.innerHTML = `
                 <div class="flex gap-6 h-[40px]">
-                    <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" alt="photo" onerror="this.src='https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn'">
+                    <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" alt="photo" onerror="this.src='${link_img}'">
                     <div>
                         <div>${worker.fullname}</div>
                         <div>${worker.role}</div>
@@ -395,7 +397,7 @@ document.querySelectorAll('.div').forEach(div => {
     if (plusBtn) {
         plusBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const salleId = div.id; // the id="Salle_de_conférence" etc
+            const salleId = div.id; 
             showAssignModal(salleId);
         });
     }
@@ -427,7 +429,7 @@ function showAssignModal(salleId) {
             item.classList.add('hello')
             item.innerHTML = `
             <div class="flex justify-between items-center w-[100%] p-8 gap-4">
-            <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" alt="photo" onerror="this.src='https://imgs.search.brave.com/r6rR4S_C_Mic8K3MxR-RPvLdyGS568a8undlqqT00_s/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMDcv/MDY4LzgwNi9zbWFs/bC9jdXRlLWVuZ2lu/ZWVyLWNvbnN0cnVj/dGlvbi13b3JrZXIt/Y29uY2VwdC1oYW5k/LWRyYXduLWNhcnRv/b24tZnJlZS12ZWN0/b3IuanBn'">
+            <img src="${worker.img}" class="w-[40px] h-[40px] rounded-full border border-black" alt="photo" onerror="this.src='${link_img}'">
             <div class="flex flex-col gap-2 w-[80%] h-[30px] ">
                <p> ${worker.fullname}</p> <p>${worker.role}</p>
                 </div>
@@ -459,29 +461,6 @@ function assignWorkerToSalle(idx, salleId) {
     assign.style.display = 'none';
 }
 
-
-
-function renderSalleMembers(salleId) {
-    const salleDiv = document.getElementById(salleId);
-    if (!salleDiv) return;
-    const assignedDiv = salleDiv.querySelector('.assigned-workers');
-    assignedDiv.innerHTML = '';
-
-    // --> RED INDICATOR LOGIC
-    let hasAssigned = workers.some(worker => worker.assignedSalle === salleId);
-    if (!hasAssigned) {
-        salleDiv.classList.add('border-4', 'border-red-500'); // Or add bg-red-100 for background
-    } else {
-        salleDiv.classList.remove('border-4', 'border-red-500');
-    }
-
-    // ... keep rest of your worker appending code here ...
-    workers.forEach((worker, i) => {
-        if (worker.assignedSalle === salleId) {
-            // ... existing code ...
-        }
-    });
-}
 
 // Call renderSalleMembers(salleName) for each salle on page load & after every assignment!
 
